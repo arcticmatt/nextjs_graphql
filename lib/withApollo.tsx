@@ -1,9 +1,9 @@
-import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import cookie from "cookie";
 import Head from "next/head";
 import PropTypes from "prop-types";
 import React from "react";
-import { getDataFromTree } from "react-apollo";
+import { getDataFromTree } from "@apollo/client/react/ssr";
 import initApollo from "./initApollo";
 import { isBrowser } from "./isBrowser";
 

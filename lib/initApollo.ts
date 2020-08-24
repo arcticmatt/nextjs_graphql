@@ -2,9 +2,9 @@ import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject,
-} from "apollo-boost";
-import { setContext } from "apollo-link-context";
-import { createHttpLink } from "apollo-link-http";
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { createHttpLink } from "@apollo/client";
 import fetch from "isomorphic-unfetch";
 import { isBrowser } from "./isBrowser";
 

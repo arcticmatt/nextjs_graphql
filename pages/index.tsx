@@ -1,10 +1,11 @@
-import { gql } from "apollo-boost";
 import Link from "next/link";
 import * as React from "react";
-import { Mutation } from "react-apollo";
 import Layout from "../components/Layout";
+import { LoginMutationVariables, useLoginMutation } from "../types/graphqlGen";
 
 const IndexPage: React.FunctionComponent = () => {
+  const [loginMutation, {}] = useLoginMutation();
+
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <h1>hello Next.js 👋</h1>
@@ -13,30 +14,20 @@ const IndexPage: React.FunctionComponent = () => {
           <a>About</a>
         </Link>
       </p>
-      <Mutation
-        mutation={gql`
-          mutation {
-            login(email: "test@test.com", password: "qqq") {
-              id
-              firstName
-              lastName
-              email
-              name
-            }
-          }
-        `}
+      <button
+        onClick={async () => {
+          const mutationVariables: LoginMutationVariables = {
+            password: "fafds",
+            email: "test@test.com",
+          };
+          const response = await loginMutation({
+            variables: mutationVariables,
+          });
+          console.log(response);
+        }}
       >
-        {(mutate: any) => (
-          <button
-            onClick={async () => {
-              const response = await mutate();
-              console.log(response);
-            }}
-          >
-            call login mutation
-          </button>
-        )}
-      </Mutation>
+        call login mutation
+      </button>
     </Layout>
   );
 };
