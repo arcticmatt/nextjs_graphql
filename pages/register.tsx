@@ -4,19 +4,34 @@ import { InputField } from "../components/fields/InputField";
 import Layout from "../components/Layout";
 import { RegisterInput, useRegisterMutation } from "../types/graphqlGen";
 
-export default () => {
+export default function RegisterPage() {
   const [registerMutation, {}] = useRegisterMutation();
 
   return (
     <Layout title="Register page">
       <Formik
-        onSubmit={async (data: RegisterInput) => {
-          const response = await registerMutation({
-            variables: {
-              data,
-            },
-          });
-          console.log(response);
+        onSubmit={async (data: RegisterInput, { setErrors }) => {
+          try {
+            const response = await registerMutation({
+              variables: {
+                data,
+              },
+            });
+            console.log(response);
+          } catch (err) {
+            const errors: { [key: string]: string } = {};
+            err.graphQLErrors[0].extensions.exception.validationErrors.forEach(
+              (validationErr: any) => {
+                Object.values(validationErr.constraints).forEach(
+                  (message: any) => {
+                    errors[validationErr.property] = message;
+                  }
+                );
+              }
+            );
+            console.log(errors);
+            setErrors(errors);
+          }
         }}
         initialValues={{
           email: "",
@@ -50,4 +65,4 @@ export default () => {
       </Formik>
     </Layout>
   );
-};
+}
