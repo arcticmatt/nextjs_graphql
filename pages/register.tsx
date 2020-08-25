@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { Field, Formik } from "formik";
 import React from "react";
 import { InputField } from "../components/fields/InputField";
@@ -6,6 +7,7 @@ import { RegisterInput, useRegisterMutation } from "../types/graphqlGen";
 
 export default function RegisterPage() {
   const [registerMutation, {}] = useRegisterMutation();
+  const router = useRouter();
 
   return (
     <Layout title="Register page">
@@ -18,6 +20,7 @@ export default function RegisterPage() {
               },
             });
             console.log(response);
+            router.push("/check-email");
           } catch (err) {
             const errors: { [key: string]: string } = {};
             err.graphQLErrors[0].extensions.exception.validationErrors.forEach(
